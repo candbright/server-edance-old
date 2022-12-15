@@ -1,8 +1,8 @@
 package edance
 
 import (
-	"edance/module/utility"
 	"fmt"
+	"github.com/candbright/edance/module/utility"
 	"os"
 	"runtime"
 	"strconv"

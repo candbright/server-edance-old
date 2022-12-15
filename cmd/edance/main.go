@@ -1,9 +1,9 @@
 package main
 
 import (
-	"edance"
-	"edance/agent"
-	"github.com/candbright/gin-util/xlog"
+	"github.com/candbright/edance"
+	"github.com/candbright/edance/agent"
+	"github.com/candbright/util/xlog"
 	"github.com/gin-gonic/gin"
 	"strconv"
 )

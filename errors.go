@@ -2,7 +2,7 @@ package edance
 
 import (
 	"errors"
-	"github.com/candbright/gin-util/xgin"
+	"github.com/candbright/util/xgin"
 	"net/http"
 )
 

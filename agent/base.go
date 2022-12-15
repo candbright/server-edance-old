@@ -1,7 +1,7 @@
 package agent
 
 import (
-	"github.com/candbright/gin-util/xgin"
+	"github.com/candbright/util/xgin"
 	"github.com/gin-gonic/gin"
 )
 

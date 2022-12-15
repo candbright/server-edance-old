@@ -1,10 +1,10 @@
 package agent
 
 import (
-	"edance"
-	"edance/db"
-	"edance/db/domain"
-	"github.com/candbright/gin-util/xlog"
+	"github.com/candbright/edance"
+	"github.com/candbright/edance/db"
+	"github.com/candbright/edance/db/domain"
+	"github.com/candbright/util/xlog"
 	"github.com/google/uuid"
 )
 
@@ -24,18 +24,15 @@ func NewSongManager(db db.DB) (*SongManager, error) {
 }
 
 func (manager *SongManager) ListAllSong() ([]domain.Song, error) {
-	//TODO implement me
-	panic("implement me")
+	return manager.db.ListAllSong()
 }
 
 func (manager *SongManager) ListSongByMode(mode string, modeDetail string) ([]domain.Song, error) {
-	//TODO implement me
-	panic("implement me")
+	return manager.db.ListSongByMode(mode, modeDetail)
 }
 
 func (manager *SongManager) GetSongById(songId string) (domain.Song, error) {
-	//TODO implement me
-	panic("implement me")
+	return manager.db.GetSongById(songId)
 }
 
 func (manager *SongManager) AddSong(song domain.Song) error {
@@ -55,6 +52,5 @@ func (manager *SongManager) AddSong(song domain.Song) error {
 }
 
 func (manager *SongManager) DeleteSong(songId string) error {
-	//TODO implement me
-	panic("implement me")
+	return manager.db.DeleteSong(songId)
 }

@@ -1,6 +1,6 @@
 package agent
 
-import "edance/db"
+import "github.com/candbright/edance/db"
 
 var (
 	songManager *SongManager

@@ -1,9 +1,9 @@
 package db
 
 import (
-	"edance"
-	"edance/db/domain"
-	"edance/db/mysql"
+	"github.com/candbright/edance"
+	"github.com/candbright/edance/db/domain"
+	"github.com/candbright/edance/db/mysql"
 )
 
 var db DB

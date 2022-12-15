@@ -1,9 +1,9 @@
 package agent
 
 import (
-	"edance/db/domain"
-	"github.com/candbright/gin-util/xgin"
-	"github.com/candbright/gin-util/xlog"
+	"github.com/candbright/edance/db/domain"
+	"github.com/candbright/util/xgin"
+	"github.com/candbright/util/xlog"
 	"github.com/gin-gonic/gin"
 )
 
@@ -40,5 +40,12 @@ func restUpdateSong(context *gin.Context) {
 }
 
 func restDeleteSong(context *gin.Context) {
-
+	xgin.DELETE(context, func(pathParams map[string]string) (interface{}, error) {
+		id := pathParams["song_id"]
+		err := songManager.DeleteSong(id)
+		if err != nil {
+			return nil, xlog.Wrap(err)
+		}
+		return nil, nil
+	})
 }

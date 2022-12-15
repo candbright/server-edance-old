@@ -31,7 +31,7 @@ type User struct {
 }
 
 func a() {
-	authMiddleware, err := jwt.New(&jwt.GinJWTMiddleware{
+	_, _ = jwt.New(&jwt.GinJWTMiddleware{
 		Realm:       "test zone",
 		Key:         []byte("secret key"),
 		Timeout:     time.Hour,

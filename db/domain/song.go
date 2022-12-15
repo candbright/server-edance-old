@@ -1,16 +1,16 @@
 package domain
 
 type Song struct {
-	Id          string `gorm:"column:ID;primaryKey" json:"id"`
-	Name        string `gorm:"column:NAME" json:"name"`
-	Description string `gorm:"column:DESCRIPTION" json:"description"`
-	Mode        string `gorm:"column:MODE" json:"mode"`
-	ModeDetail  string `gorm:"column:MODE_DETAIL" json:"mode_detail"`
-	Difficult   string `gorm:"column:DIFFICULT" json:"difficult"`
-	ImageSrc    string `gorm:"column:IMAGE_SRC" json:"image_src"`
-	Url         string `gorm:"column:URL" json:"url"`
+	Id          string `gorm:"column:id;primaryKey" json:"id"`
+	Name        string `gorm:"column:name" json:"name"`
+	Description string `gorm:"column:description" json:"description"`
+	Mode        string `gorm:"column:mode" json:"mode"`
+	ModeDetail  string `gorm:"column:mode_detail" json:"mode_detail"`
+	Difficult   string `gorm:"column:difficult" json:"difficult"`
+	ImageSrc    string `gorm:"column:image_src" json:"image_src"`
+	Url         string `gorm:"column:url" json:"url"`
 }
 
 func (song Song) TableName() string {
-	return "SONG"
+	return "domain_song"
 }

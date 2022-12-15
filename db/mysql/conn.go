@@ -1,10 +1,10 @@
 package mysql
 
 import (
-	"edance"
-	"edance/db/domain"
 	"fmt"
-	"github.com/candbright/gin-util/xlog"
+	"github.com/candbright/edance"
+	"github.com/candbright/edance/db/domain"
+	"github.com/candbright/util/xlog"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )

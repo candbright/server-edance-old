@@ -1,1 +1,1 @@
-package ed_ctl
+package main
