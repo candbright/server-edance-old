@@ -4,7 +4,7 @@ go 1.17
 
 require (
 	github.com/appleboy/gin-jwt/v2 v2.9.1
-	github.com/candbright/util v1.0.3
+	github.com/candbright/util v1.0.4
 	github.com/gin-gonic/gin v1.8.1
 	github.com/google/uuid v1.3.0
 	gorm.io/driver/mysql v1.4.4

@@ -1,25 +1,19 @@
 package agent
 
 import (
-	"github.com/candbright/edance"
+	"errors"
 	"github.com/candbright/edance/db"
 	"github.com/candbright/edance/db/domain"
 	"github.com/candbright/util/xlog"
-	"github.com/google/uuid"
+	"gorm.io/gorm"
 )
 
 type SongManager struct {
-	songs []domain.Song
-	db    db.DB
+	db db.DB
 }
 
 func NewSongManager(db db.DB) (*SongManager, error) {
 	manager := &SongManager{db: db}
-	songs, err := db.ListAllSong()
-	if err != nil {
-		return nil, xlog.Wrap(err)
-	}
-	manager.songs = songs
 	return manager, nil
 }
 
@@ -36,18 +30,14 @@ func (manager *SongManager) GetSongById(songId string) (domain.Song, error) {
 }
 
 func (manager *SongManager) AddSong(song domain.Song) error {
-	if song.Id == "" {
-		randomId, err := uuid.NewRandom()
-		if err != nil {
-			return xlog.Wrap(edance.ErrRandomUuid(err))
-		}
-		song.Id = randomId.String()
+	_, err := manager.GetSongById(song.Id)
+	if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
+		return xlog.Wrap(err)
 	}
-	err := manager.db.AddSong(song)
+	err = manager.db.AddSong(song)
 	if err != nil {
 		return xlog.Wrap(err)
 	}
-	manager.songs = append(manager.songs, song)
 	return nil
 }
 

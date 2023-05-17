@@ -3,13 +3,25 @@ package agent
 import (
 	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/gin-gonic/gin"
-	"log"
 	"time"
 )
 
-func RegisterMiddleware(eng *gin.Engine) {
+type Login struct {
+	Username string `form:"username" json:"username" binding:"required"`
+	Password string `form:"password" json:"password" binding:"required"`
+}
+
+var identityKey = "id"
+
+type User struct {
+	UserName  string
+	FirstName string
+	LastName  string
+}
+
+func AuthMiddleware(eng *gin.Engine, groups ...*gin.RouterGroup) {
 	authMiddleware, err := jwt.New(&jwt.GinJWTMiddleware{
-		Realm:       "test zone",
+		Realm:       "edance",
 		Key:         []byte("secret key"),
 		Timeout:     time.Hour,
 		MaxRefresh:  time.Hour,
@@ -29,17 +41,17 @@ func RegisterMiddleware(eng *gin.Engine) {
 			}
 		},
 		Authenticator: func(c *gin.Context) (interface{}, error) {
-			var loginVals login
+			var loginVals Login
 			if err := c.ShouldBind(&loginVals); err != nil {
 				return "", jwt.ErrMissingLoginValues
 			}
 			userID := loginVals.Username
 			password := loginVals.Password
 
-			if (userID == "admin" && password == "admin") || (userID == "test" && password == "test") {
+			if (userID == "admin" && password == "admin#123456") || (userID == "test" && password == "test#123456") {
 				return &User{
 					UserName:  userID,
-					LastName:  "Yu-Hao",
+					LastName:  "YuHao",
 					FirstName: "Wang",
 				}, nil
 			}
@@ -79,7 +91,7 @@ func RegisterMiddleware(eng *gin.Engine) {
 	})
 
 	if err != nil {
-		log.Fatal("JWT Error:" + err.Error())
+		panic("JWT Error:" + err.Error())
 	}
 
 	// When you use jwt.New(), the function is already automatically called for checking,
@@ -87,29 +99,32 @@ func RegisterMiddleware(eng *gin.Engine) {
 	errInit := authMiddleware.MiddlewareInit()
 
 	if errInit != nil {
-		log.Fatal("authMiddleware.MiddlewareInit() Error:" + errInit.Error())
+		panic("authMiddleware.MiddlewareInit() Error:" + errInit.Error())
 	}
-
 	eng.POST("/login", authMiddleware.LoginHandler)
 	eng.POST("/logout", authMiddleware.LogoutHandler)
-
 	eng.NoRoute(authMiddleware.MiddlewareFunc(), func(c *gin.Context) {
-		c.JSON(404, gin.H{"code": "PAGE_NOT_FOUND", "message": "Page not found"})
+		c.JSON(404, gin.H{"status": "404", "message": "Page not found"})
 	})
-
-	auth := eng.Group("/auth")
-	// Refresh time can be longer than token timeout
-	auth.GET("/refresh_token", authMiddleware.RefreshHandler)
-	auth.Use(authMiddleware.MiddlewareFunc())
+	if groups != nil {
+		for _, group := range groups {
+			group.GET("/refresh_token", authMiddleware.RefreshHandler)
+			// Refresh time can be longer than token timeout
+			group.Use(authMiddleware.MiddlewareFunc())
+		}
+	}
 }
 
 func RegisterHandlers(eng *gin.Engine) {
+	api := eng.Group("/api")
+	AuthMiddleware(eng, api)
 	//base
-	eng.GET("base/test", restTest)
+	api.GET("base/test", restTest)
+
 	//song
-	eng.GET("api/song", restListAllSong)
-	eng.GET("api/song/:song_id", restGetSongById)
-	eng.POST("api/song", restAddSong)
-	eng.PUT("api/song/:song_id", restUpdateSong)
-	eng.DELETE("api/song/:song_id", restDeleteSong)
+	api.GET("/song", restListSong)
+	api.GET("/song/:song_id", restGetSongById)
+	api.POST("/song", restAddSong)
+	api.PUT("/song/:song_id", restUpdateSong)
+	api.DELETE("/song/:song_id", restDeleteSong)
 }

@@ -25,3 +25,7 @@ var (
 		return xgin.CodeErr(3003, err)
 	}
 )
+
+var (
+	ErrSongConflict = xgin.StatusErr(errors.New("song with this ID already exists"), http.StatusConflict)
+)

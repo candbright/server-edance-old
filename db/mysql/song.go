@@ -24,7 +24,7 @@ func (db DB) ListSongByMode(mode string, modeDetail string) ([]domain.Song, erro
 func (db DB) GetSongById(songId string) (domain.Song, error) {
 	var result domain.Song
 	if err := db.Where("id = ?", songId).Take(&result).Error; err != nil {
-		return domain.Song{}, xlog.Wrap(db.Error)
+		return domain.Song{}, xlog.Wrap(err)
 	}
 	return result, nil
 }
